@@ -6,7 +6,7 @@ export default function HomeView() {
     <section className="flex items-center justify-center min-h-screen bg-gray-100 w-full">
       <div className="relative min-h-screen w-full">
         <Image
-          src="/retail-shopping-covid19.webp"
+          src="/shop.jpg"
           alt="Background"
           fill
           className="object-cover"

@@ -43,7 +43,7 @@ export const ProductCard = ({
       </div>
       <div className="p-4">
         <h3 className="font-semibold text-lg">{product.title}</h3>
-        <p className="mt-2 text-blue-700 font-bold text-xl">{product.price}</p>
+        <p className="mt-2 text-blue-700 font-bold text-xl">${product.price}</p>
         <Button
           className="mt-4 w-full cursor-pointer"
           onClick={e => {

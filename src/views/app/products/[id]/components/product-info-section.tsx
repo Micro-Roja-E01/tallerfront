@@ -53,20 +53,29 @@ export const ProductInfoSection = ({
 
       {/* Price Section */}
       <div className="space-y-1">
-        {product.discount ? (
+        {product.discountPercentage > 0 ? (
           <div className="flex items-center space-x-2">
+            {/* Precio con descuento (final) */}
             <h3 className="text-2xl font-bold text-green-600">
-              {discountedPrice(product.price, product.discount)}
+              {discountedPrice(
+                product.price.toString(),
+                product.discountPercentage / 100
+              )}
             </h3>
+
             <h4 className="text-lg line-through text-gray-500">
-              {product.price}
+              {discountedPrice(product.price.toString(), 0)}
             </h4>
+
+            {/* Badge de % */}
             <span className="bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded">
-              -{Math.round(product.discount * 100)}%
+              -{product.discountPercentage}%
             </span>
           </div>
         ) : (
-          <h3 className="text-2xl font-bold text-blue-600">{product.price}</h3>
+          <h3 className="text-2xl font-bold text-blue-600">
+            {discountedPrice(product.price.toString(), 0)}
+          </h3>
         )}
       </div>
 

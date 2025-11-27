@@ -54,7 +54,7 @@ export default function ProductDetailView({ id }: ProductDetailViewProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <ProductImageCarousel images={productDetail.imagesURL} />
+        <ProductImageCarousel images={productDetail.imageUrls} />
         <ProductInfoSection
           product={productDetail}
           discountedPrice={actions.handleCalculateDiscountedPrice}

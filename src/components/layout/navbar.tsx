@@ -45,7 +45,7 @@ export const Navbar = () => {
       <nav className="max-w-7xl mx-auto flex justify-between items-center px-4 h-full">
         {/* Logo */}
         <Link href="/" className="font-bold text-2xl cursor-pointer">
-          IDWM
+          Tienda UCN
         </Link>
 
         {/* Navigation */}

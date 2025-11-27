@@ -35,7 +35,7 @@ export function useCartDropdown() {
 
   // Effects
   useEffect(() => {
-    if (cart) setItems(cart.data.items);
+    if (cart) setItems(cart.data?.items ?? []);
   }, [cart, setItems]);
 
   useEffect(() => {
