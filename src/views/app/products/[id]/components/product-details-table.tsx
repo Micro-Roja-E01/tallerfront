@@ -51,9 +51,9 @@ export const ProductDetailsTable = ({ product }: ProductDetailsTableProps) => {
                         : "bg-gray-100 text-gray-800"
                   }`}
                 >
-                  {product.statusName === "New"
+                  {product.statusName === "Nuevo"
                     ? "Nuevo"
-                    : product.statusName === "Used"
+                    : product.statusName === "Usado"
                       ? "Usado"
                       : ""}
                 </span>

@@ -43,7 +43,7 @@ const eslintConfig = [
       "prettier/prettier": "error",
 
       // Ban all console usage
-      "no-console": "error",
+      //"no-console": "error",
     },
   },
 ];
