@@ -24,7 +24,7 @@ export class ProductService extends BaseApiService {
 
   getProductDetail(id: string) {
     return this.httpClient.get<ApiResponse<ProductDetailForCustomerResponse>>(
-      `${this.baseURL}/${id}`
+      `${this.baseURL}/products/${id}`
     );
   }
 

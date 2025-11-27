@@ -27,7 +27,13 @@ export const useProductDetail = (id: string) => {
   };
 
   const handleCalculateDiscountedPrice = (price: string, discount: number) => {
-    return (parseFloat(price) * (1 - discount)).toFixed(2);
+    const value = parseFloat(price) * (1 - discount);
+    return new Intl.NumberFormat("es-CL", {
+      style: "currency",
+      currency: "CLP",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
   };
 
   return {

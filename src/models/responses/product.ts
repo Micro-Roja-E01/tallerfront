@@ -3,7 +3,7 @@ export interface ProductForCustomerResponse {
   title: string;
   description: string;
   mainImageURL: string;
-  price: string;
+  price: number;
   discount: number;
 }
 
@@ -19,22 +19,24 @@ export interface ProductDetailForCustomerResponse {
   id: number;
   title: string;
   description: string;
-  imagesURL: string[];
-  price: string;
-  discount: number;
+  mainImageURL: string;
+  imageUrls: string[];
+  price: number;
+  finalPrice: number;
+  discountPercentage: number;
   stock: number;
   stockIndicator: string;
   categoryName: string;
   brandName: string;
-  statusName: string;
   isAvailable: boolean;
+  statusName: string;
 }
 
 export interface ProductForAdminResponse {
   id: number;
   title: string;
   mainImageURL: string;
-  price: string;
+  price: number;
   stock: number;
   stockIndicator: string;
   categoryName: string;
