@@ -28,7 +28,7 @@ export class AuthService extends BaseApiService {
 
   verifyEmail(verifyEmailData: VerifyEmailRequest) {
     return this.httpClient.post<ApiResponse<string>>(
-      `${this.baseURL}/verify-email`,
+      `${this.baseURL}/verify`,
       verifyEmailData
     );
   }

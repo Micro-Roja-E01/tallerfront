@@ -43,7 +43,7 @@ const formSchema = z.object({
     .number()
     .int({ error: "El stock debe ser un número entero" })
     .gte(0, { error: "El stock no puede ser menor a 0" }),
-  status: z.enum(["New", "Used"], { error: "Seleccione un estado válido" }),
+  status: z.enum(["Nuevo", "Usado"], { error: "Seleccione un estado válido" }),
   categoryName: z
     .string()
     .min(3, { error: "La categoría debe tener al menos 3 caracteres" })
@@ -209,8 +209,8 @@ export function NewProductForm() {
                         <SelectValue placeholder="Selecciona un estado" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="New">Nuevo</SelectItem>
-                        <SelectItem value="Used">Usado</SelectItem>
+                        <SelectItem value="Nuevo">Nuevo</SelectItem>
+                        <SelectItem value="Usado">Usado</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>

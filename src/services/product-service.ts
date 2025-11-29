@@ -37,7 +37,7 @@ export class ProductService extends BaseApiService {
 
   createProduct(productFormData: FormData) {
     return this.httpClient.post<ApiResponse<string>>(
-      `${this.baseURL}`,
+      `${this.baseURL}/admin/create-with-files`,
       productFormData,
       {
         headers: { "Content-Type": "multipart/form-data" },
