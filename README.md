@@ -1,10 +1,7 @@
 # Tienda UCN Frontend
 
-This project consists of the simplified implementation of the frontend of the “Tienda UCN” e-commerce platform using Next.js. This includes the creation of views, user session and shopping cart management, proper use of rendering strategies and global states.
-
-The website is created with a mobile-first approach, so that it is responsive to different screen sizes and maintains a pleasant and fluid user experience.
-
-In addition, the system is designed to be used in conjunction with a Rest API created with ASP .NET Core, which allows for the management of user and product data.
+The objective of this project is to implement a Frontend with React and Nextjs to make use of the API REST of the ecommerce platform called **Tienda UCN**.
+This project is a fork of a base project created by Sebastián Núñez, which is mentioned in the end of the README.
 
 ## Installation
 
@@ -21,13 +18,13 @@ Once everything is installed, run the project by following the steps in the next
 1. Clone the repository on your computer using CMD.
 
    ```bash
-   git clone https://github.com/2kSebaNG/tienda-ucn-frontend.git
+   git clone https://github.com/Micro-Roja-E01/tallerfront.git
    ```
 
 2. Navigate to the project folder.
 
    ```bash
-   cd tienda-ucn-frontend
+   cd tallerfront
    ```
 
 3. Open the project using Visual Studio Code.
@@ -74,12 +71,27 @@ Once everything is installed, run the project by following the steps in the next
    npm run dev
    ```
 
-   Once you have followed these steps, you will see that the project is running on `http://localhost:3000`. To see the website, press `ctrl` and click that address.
+   Once you have followed these steps, you will see that the project is running on `http://localhost:5023`. To see the website, press `ctrl` and click that address.
 
 ## Backend Repository
 
-To test the full functionality of the website, access the [Backend repository](https://github.com/NachoXx25/Tienda-UCN-API) and follow the instructions in the README file to run it.
+To test the full functionality of the website, access the [Backend repository](https://github.com/Micro-Roja-E01/Tienda) and follow the instructions in the README file to run it.
 
 ## Author
 
+## Integrantes
+
+| Nombre completo          | Rut        | Carrera                                       | Correo institucional            |
+| ------------------------ | ---------- | --------------------------------------------- | ------------------------------- |
+| Matías Soto Carvajal     | 21708975-1 | Ingeniería Civil en Computación e Informática | matias.soto@alumnos.ucn.cl      |
+| Sebastián Gálvez Vilchez | 21834204-3 | Ingeniería Civil en Computación e Informática | sebastian.galvez@alumnos.ucn.cl |
+| Joaquín Dublas Henriquez | 21715440-5 | Ingeniería Civil en Computación e Informática | joaquin.dublas@alumnos.ucn.cl   |
+
+### Author of base project.
+
 - [Sebastián Núñez](https://github.com/2kSebaNG)
+
+---
+
+📅 **Universidad Católica del Norte — 2025**  
+Proyecto: _Tienda UCN API_
