@@ -9,6 +9,7 @@ export interface CreateProductRequest {
   description: string;
   price: number;
   stock: number;
+  discount: number;
   status: string;
   categoryName: string;
   brandName: string;
