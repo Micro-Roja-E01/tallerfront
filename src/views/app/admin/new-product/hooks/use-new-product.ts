@@ -22,6 +22,7 @@ export const useNewProduct = () => {
       productFormData.append("description", productData.description);
       productFormData.append("price", productData.price.toString());
       productFormData.append("stock", productData.stock.toString());
+      productFormData.append("discount", productData.discount.toString());
       productFormData.append("status", productData.status);
       productFormData.append("categoryName", productData.categoryName);
       productFormData.append("brandName", productData.brandName);

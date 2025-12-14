@@ -43,6 +43,11 @@ const formSchema = z.object({
     .number()
     .int({ error: "El stock debe ser un número entero" })
     .gte(0, { error: "El stock no puede ser menor a 0" }),
+  discount: z.coerce
+    .number()
+    .int({ error: "El descuento debe ser un número entero" })
+    .gte(0, { error: "El descuento no puede ser menor a 0" })
+    .lte(100, { error: "El descuento no puede superar el 100%" }),
   status: z.enum(["Nuevo", "Usado"], { error: "Seleccione un estado válido" }),
   categoryName: z
     .string()
@@ -82,6 +87,7 @@ export function NewProductForm() {
       description: "",
       price: 0,
       stock: 0,
+      discount: 0,
       status: undefined,
       categoryName: "",
       brandName: "",
@@ -188,6 +194,31 @@ export function NewProductForm() {
               }}
             />
           </div>
+
+          <FormField
+            control={form.control}
+            name="discount"
+            render={({ field }) => {
+              const { value, ...rest } = field;
+              return (
+                <FormItem>
+                  <FormLabel>Descuento (%)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="0"
+                      min={0}
+                      max={100}
+                      value={value as number}
+                      {...rest}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
 
           <div className="flex flex-col gap-6">
             <FormField
