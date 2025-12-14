@@ -47,7 +47,17 @@ export class ProductService extends BaseApiService {
 
   toggleProductAvailability(id: string) {
     return this.httpClient.patch<ApiResponse<string>>(
-      `${this.baseURL}/${id}/toggle-active`
+      `${this.baseURL}/admin/products/${id}/toggle-availability`
+    );
+  }
+
+  updateProduct(id: string, productFormData: FormData) {
+    return this.httpClient.put<ApiResponse<string>>(
+      `${this.baseURL}/admin/products/${id}`,
+      productFormData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
     );
   }
 }
