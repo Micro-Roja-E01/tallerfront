@@ -26,14 +26,13 @@ export const useProductDetail = (id: string) => {
     refetch();
   };
 
-  const handleCalculateDiscountedPrice = (price: string, discount: number) => {
-    const value = parseFloat(price) * (1 - discount);
+  const formatPrice = (price: number) => {
     return new Intl.NumberFormat("es-CL", {
       style: "currency",
       currency: "CLP",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(value);
+    }).format(price);
   };
 
   return {
@@ -46,7 +45,7 @@ export const useProductDetail = (id: string) => {
     actions: {
       handleGoToProducts,
       handleRetry,
-      handleCalculateDiscountedPrice,
+      formatPrice,
     },
   };
 };

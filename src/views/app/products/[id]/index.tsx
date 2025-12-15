@@ -57,7 +57,7 @@ export default function ProductDetailView({ id }: ProductDetailViewProps) {
         <ProductImageCarousel images={productDetail.imageUrls} />
         <ProductInfoSection
           product={productDetail}
-          discountedPrice={actions.handleCalculateDiscountedPrice}
+          formatPrice={actions.formatPrice}
         />
       </div>
 

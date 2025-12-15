@@ -6,6 +6,7 @@ import {
   PaginationQueryParams,
 } from "@/models/requests";
 import {
+  ProductDetailForAdminResponse,
   ProductDetailForCustomerResponse,
   ProductFiltersResponse,
   ProductListForAdminResponse,
@@ -69,6 +70,12 @@ export class ProductService extends BaseApiService {
     );
   }
 
+  getProductDetailForAdmin(id: string) {
+    return this.httpClient.get<ApiResponse<ProductDetailForAdminResponse>>(
+      `${this.baseURL}/admin/${id}/detailed`
+    );
+  }
+
   getProductsForAdmin(params?: PaginationQueryParams) {
     return this.httpClient.get<ApiResponse<ProductListForAdminResponse>>(
       `${this.baseURL}/admin/products`,
@@ -88,7 +95,7 @@ export class ProductService extends BaseApiService {
 
   toggleProductAvailability(id: string) {
     return this.httpClient.patch<ApiResponse<string>>(
-      `${this.baseURL}/admin/products/${id}/toggle-availability`
+      `${this.baseURL}/admin/${id}/toggle-availability`
     );
   }
 

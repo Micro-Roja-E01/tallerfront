@@ -21,8 +21,10 @@ export {
 export {
   useCreateProductMutation,
   useGetProductDetail,
+  useGetProductDetailForAdmin,
   useGetProductFilters,
   useGetProductsForAdmin,
   useGetProductsForCustomer,
   useToggleProductAvailabilityMutation,
+  useUpdateProductMutation,
 } from "./use-product-service";
