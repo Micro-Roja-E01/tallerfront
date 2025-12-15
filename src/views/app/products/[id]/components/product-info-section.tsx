@@ -9,12 +9,12 @@ import { useProductDetailCart } from "../hooks";
 
 interface ProductInfoSectionProps {
   product: ProductDetailForCustomerResponse;
-  discountedPrice: (price: string, discount: number) => string;
+  formatPrice: (price: number) => string;
 }
 
 export const ProductInfoSection = ({
   product,
-  discountedPrice,
+  formatPrice,
 }: ProductInfoSectionProps) => {
   const {
     quantity: { local: localQuantity },
@@ -55,26 +55,24 @@ export const ProductInfoSection = ({
       <div className="space-y-1">
         {product.discountPercentage > 0 ? (
           <div className="flex items-center space-x-2">
-            {/* Precio con descuento (final) */}
+            {/* Precio final con descuento aplicado */}
             <h3 className="text-2xl font-bold text-green-600">
-              {discountedPrice(
-                product.price.toString(),
-                product.discountPercentage / 100
-              )}
+              {formatPrice(product.finalPrice)}
             </h3>
 
+            {/* Precio original tachado */}
             <h4 className="text-lg line-through text-gray-500">
-              {discountedPrice(product.price.toString(), 0)}
+              {formatPrice(product.price)}
             </h4>
 
-            {/* Badge de % */}
+            {/* Badge de descuento */}
             <span className="bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded">
               -{product.discountPercentage}%
             </span>
           </div>
         ) : (
           <h3 className="text-2xl font-bold text-blue-600">
-            {discountedPrice(product.price.toString(), 0)}
+            {formatPrice(product.price)}
           </h3>
         )}
       </div>
