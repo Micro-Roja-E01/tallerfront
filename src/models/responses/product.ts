@@ -53,3 +53,32 @@ export interface ProductListForAdminResponse {
   currentPage: number;
   pageSize: number;
 }
+
+export interface ImageDetailResponse {
+  id: number;
+  imageUrl: string;
+  publicId: string;
+  createdAt: string;
+}
+
+export interface ProductDetailForAdminResponse {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discount: number;
+  finalPrice: number;
+  stock: number;
+  status: string;
+  isAvailable: boolean;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  categoryId: number;
+  categoryName: string;
+  brandId: number;
+  brandName: string;
+  images: ImageDetailResponse[];
+  stockIndicator: string;
+}
