@@ -1,8 +1,9 @@
 import { useRouter } from "next/navigation";
-import { MouseEvent, useCallback, useState } from "react";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
 
-import { useGetProductFilters, useGetProductsForCustomer } from "@/hooks/api";
+import { useGetProductsForCustomer } from "@/hooks/api";
 import { AdvancedFiltersParams } from "@/models/requests";
+import { ProductFiltersResponse } from "@/models/responses";
 
 import { AdvancedFiltersState } from "../components";
 
@@ -29,7 +30,13 @@ export const useProducts = () => {
 
   const router = useRouter();
 
-  // API calls
+  // API calls - Obtener todos los productos sin filtros para calcular las opciones de filtro
+  const { data: allProductsData } = useGetProductsForCustomer({
+    pageNumber: 1,
+    pageSize: 1000, // Obtener suficientes productos para calcular filtros
+  });
+
+  // API calls - Productos con filtros aplicados (intentamos filtrar en backend)
   const {
     data: queryData,
     isLoading,
@@ -37,17 +44,113 @@ export const useProducts = () => {
     refetch,
   } = useGetProductsForCustomer(filters);
 
-  const { data: filtersQueryData, isLoading: isLoadingFilters } =
-    useGetProductFilters();
-
   // Computed values
   const productsData = queryData?.data;
-  const products = productsData?.products ?? [];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const rawProducts = productsData?.products ?? [];
+
+  // Filtrar productos en el cliente (como fallback si el backend no filtra)
+  const products = useMemo(() => {
+    let filtered = rawProducts;
+
+    // Filtrar por categorías
+    if (advancedFilters.categories.length > 0) {
+      filtered = filtered.filter(p =>
+        advancedFilters.categories.includes(p.categoryName)
+      );
+    }
+
+    // Filtrar por marcas
+    if (advancedFilters.brands.length > 0) {
+      filtered = filtered.filter(p =>
+        advancedFilters.brands.includes(p.brandName)
+      );
+    }
+
+    // Filtrar por estados
+    if (advancedFilters.statuses.length > 0) {
+      filtered = filtered.filter(p =>
+        advancedFilters.statuses.includes(p.statusName)
+      );
+    }
+
+    // Filtrar por precio mínimo
+    if (advancedFilters.minPrice !== undefined) {
+      filtered = filtered.filter(
+        p => (p.finalPrice ?? p.price) >= advancedFilters.minPrice!
+      );
+    }
+
+    // Filtrar por precio máximo
+    if (advancedFilters.maxPrice !== undefined) {
+      filtered = filtered.filter(
+        p => (p.finalPrice ?? p.price) <= advancedFilters.maxPrice!
+      );
+    }
+
+    return filtered;
+  }, [rawProducts, advancedFilters]);
+
   const totalPages = productsData?.totalPages ?? 0;
   const totalCount = productsData?.totalCount ?? 0;
   const currentPage = productsData?.currentPage ?? 1;
 
-  const filtersData = filtersQueryData?.data;
+  // Calcular filtros dinámicamente desde todos los productos
+  const filtersData: ProductFiltersResponse | undefined = useMemo(() => {
+    const allProducts = allProductsData?.data?.products ?? [];
+
+    if (allProducts.length === 0) return undefined;
+
+    // Contar categorías
+    const categoryCount = new Map<string, number>();
+    allProducts.forEach(p => {
+      if (p.categoryName) {
+        categoryCount.set(
+          p.categoryName,
+          (categoryCount.get(p.categoryName) ?? 0) + 1
+        );
+      }
+    });
+
+    // Contar marcas
+    const brandCount = new Map<string, number>();
+    allProducts.forEach(p => {
+      if (p.brandName) {
+        brandCount.set(p.brandName, (brandCount.get(p.brandName) ?? 0) + 1);
+      }
+    });
+
+    // Contar estados
+    const statusCount = new Map<string, number>();
+    allProducts.forEach(p => {
+      if (p.statusName) {
+        statusCount.set(p.statusName, (statusCount.get(p.statusName) ?? 0) + 1);
+      }
+    });
+
+    // Calcular rango de precios
+    const prices = allProducts
+      .map(p => p.finalPrice ?? p.price)
+      .filter(p => p > 0);
+    const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+    const maxPrice = prices.length > 0 ? Math.max(...prices) : 1000000;
+
+    return {
+      categories: Array.from(categoryCount.entries())
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+      brands: Array.from(brandCount.entries())
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+      statuses: Array.from(statusCount.entries())
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+      minPrice,
+      maxPrice,
+    };
+  }, [allProductsData]);
+
+  const isLoadingFilters = !allProductsData;
 
   const generatePageNumbers = () => {
     const pages = [];

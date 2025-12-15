@@ -1,11 +1,18 @@
 export interface ProductForCustomerResponse {
   id: number;
   title: string;
-  description: string;
+  description?: string;
   mainImageURL: string;
   price: number;
   discount: number;
   finalPrice: number;
+  stock?: number;
+  stockIndicator?: string;
+  categoryName: string;
+  brandName: string;
+  isAvailable: boolean;
+  hasDiscount: boolean;
+  statusName: string;
 }
 
 export interface ProductListForCustomerResponse {

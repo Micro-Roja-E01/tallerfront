@@ -33,20 +33,24 @@ export class ProductService extends BaseApiService {
   private buildQueryParams(
     params: PaginationQueryParams | AdvancedFiltersParams
   ) {
-    const queryParams: Record<string, string | number | undefined> = {
+    const queryParams: Record<string, string | number | boolean | undefined> = {
       pageNumber: params.pageNumber,
       pageSize: params.pageSize,
       searchTerm: params.searchTerm,
     };
 
+    // El backend acepta un solo valor por filtro (singular)
     if ("categories" in params && params.categories?.length) {
-      queryParams.categories = params.categories.join(",");
+      // Enviar solo el primer valor seleccionado al backend
+      queryParams.category = params.categories[0];
     }
     if ("brands" in params && params.brands?.length) {
-      queryParams.brands = params.brands.join(",");
+      // Enviar solo el primer valor seleccionado al backend
+      queryParams.brand = params.brands[0];
     }
     if ("statuses" in params && params.statuses?.length) {
-      queryParams.statuses = params.statuses.join(",");
+      // Enviar solo el primer valor seleccionado al backend
+      queryParams.status = params.statuses[0];
     }
     if ("minPrice" in params && params.minPrice !== undefined) {
       queryParams.minPrice = params.minPrice;

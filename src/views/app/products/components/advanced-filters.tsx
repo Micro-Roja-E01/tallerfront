@@ -331,7 +331,7 @@ export const AdvancedFilters = ({
                 {(!filtersData?.categories ||
                   filtersData.categories.length === 0) && (
                   <p className="text-sm text-muted-foreground">
-                    No hay categorías disponibles
+                    Cargando categorías...
                   </p>
                 )}
               </div>
@@ -438,7 +438,7 @@ export const AdvancedFilters = ({
                 {(!filtersData?.statuses ||
                   filtersData.statuses.length === 0) && (
                   <p className="text-sm text-muted-foreground">
-                    No hay estados disponibles
+                    Cargando estados...
                   </p>
                 )}
               </div>
@@ -468,7 +468,7 @@ export const AdvancedFilters = ({
                 ))}
                 {(!filtersData?.brands || filtersData.brands.length === 0) && (
                   <p className="text-sm text-muted-foreground">
-                    No hay marcas disponibles
+                    Cargando marcas...
                   </p>
                 )}
               </div>
