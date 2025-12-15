@@ -89,7 +89,27 @@ export const AdminProductCard = ({
         </div>
 
         <div className="flex items-center justify-between text-sm">
-          <p className="font-semibold text-base">{product.price}</p>
+          <div>
+            {product.discount > 0 ? (
+              <>
+                <div className="flex items-center gap-2">
+                  <p className="font-semibold text-base text-green-600">
+                    ${product.finalPrice.toLocaleString("es-CL")}
+                  </p>
+                  <span className="bg-red-500 text-white text-xs px-1.5 py-0.5 rounded">
+                    -{product.discount}%
+                  </span>
+                </div>
+                <p className="text-xs text-gray-500 line-through">
+                  ${product.price.toLocaleString("es-CL")}
+                </p>
+              </>
+            ) : (
+              <p className="font-semibold text-base">
+                ${product.price.toLocaleString("es-CL")}
+              </p>
+            )}
+          </div>
           <p className="text-muted-foreground">Stock: {product.stock}</p>
         </div>
 

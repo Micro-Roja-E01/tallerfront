@@ -43,7 +43,27 @@ export const ProductCard = ({
       </div>
       <div className="p-4">
         <h3 className="font-semibold text-lg">{product.title}</h3>
-        <p className="mt-2 text-blue-700 font-bold text-xl">${product.price}</p>
+        <div className="mt-2">
+          {product.discount > 0 ? (
+            <>
+              <div className="flex items-center gap-2">
+                <p className="text-green-600 font-bold text-xl">
+                  ${product.finalPrice.toLocaleString("es-CL")}
+                </p>
+                <span className="bg-red-500 text-white text-xs px-2 py-1 rounded">
+                  -{product.discount}%
+                </span>
+              </div>
+              <p className="text-gray-500 line-through text-sm">
+                ${product.price.toLocaleString("es-CL")}
+              </p>
+            </>
+          ) : (
+            <p className="text-blue-700 font-bold text-xl">
+              ${product.price.toLocaleString("es-CL")}
+            </p>
+          )}
+        </div>
         <Button
           className="mt-4 w-full cursor-pointer"
           onClick={e => {
