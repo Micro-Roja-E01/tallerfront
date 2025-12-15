@@ -5,10 +5,11 @@ export const metadata = {
   description: "Página para editar un producto existente",
 };
 
-export default function EditProductPage({
+export default async function EditProductPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  return <EditProductView productId={params.id} />;
+  const { id } = await params;
+  return <EditProductView productId={id} />;
 }
