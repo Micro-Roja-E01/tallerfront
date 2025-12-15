@@ -1,4 +1,5 @@
 export { default as HomeView } from "./app";
+export { default as EditProductView } from "./app/admin/edit-product";
 export { default as NewProductView } from "./app/admin/new-product";
 export { default as AdminProductsView } from "./app/admin/products";
 export { default as LoginView } from "./app/auth/login";
