@@ -22,7 +22,6 @@ export {
   useCreateProductMutation,
   useGetProductDetail,
   useGetProductDetailForAdmin,
-  useGetProductFilters,
   useGetProductsForAdmin,
   useGetProductsForCustomer,
   useToggleProductAvailabilityMutation,

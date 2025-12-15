@@ -19,18 +19,6 @@ export const useGetProductsForCustomer = (
   });
 };
 
-export const useGetProductFilters = (enabled = true) => {
-  return useQuery({
-    queryKey: ["products", "filters"],
-    queryFn: async () => {
-      const response = await productService.getProductFilters();
-      return response.data;
-    },
-    enabled,
-    staleTime: 10 * 60 * 1000, // 10 minutos de cache para los filtros
-  });
-};
-
 export const useGetProductDetail = (id: string, enabled = true) => {
   return useQuery({
     queryKey: ["products", "detail", id],
