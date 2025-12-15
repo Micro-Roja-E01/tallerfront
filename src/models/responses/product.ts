@@ -5,6 +5,7 @@ export interface ProductForCustomerResponse {
   mainImageURL: string;
   price: number;
   discount: number;
+  finalPrice: number;
 }
 
 export interface ProductListForCustomerResponse {
@@ -37,6 +38,8 @@ export interface ProductForAdminResponse {
   title: string;
   mainImageURL: string;
   price: number;
+  discount: number;
+  finalPrice: number;
   stock: number;
   stockIndicator: string;
   categoryName: string;
