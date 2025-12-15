@@ -28,6 +28,18 @@ export const useGetProductDetail = (id: string, enabled = true) => {
   });
 };
 
+export const useGetProductDetailForAdmin = (id: string, enabled = true) => {
+  return useQuery({
+    queryKey: ["products", "detail", "admin", id],
+    queryFn: async () => {
+      const response = await productService.getProductDetailForAdmin(id);
+      return response.data;
+    },
+    enabled: enabled && isValidId(id),
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
 export const useGetProductsForAdmin = (
   params: PaginationQueryParams = { pageNumber: 1 }
 ) => {
@@ -53,6 +65,21 @@ export const useToggleProductAvailabilityMutation = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const response = await productService.toggleProductAvailability(id);
+      return response.data;
+    },
+  });
+};
+
+export const useUpdateProductMutation = () => {
+  return useMutation({
+    mutationFn: async ({
+      id,
+      productFormData,
+    }: {
+      id: string;
+      productFormData: FormData;
+    }) => {
+      const response = await productService.updateProduct(id, productFormData);
       return response.data;
     },
   });
