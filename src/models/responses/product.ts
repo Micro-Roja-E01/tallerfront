@@ -53,3 +53,16 @@ export interface ProductListForAdminResponse {
   currentPage: number;
   pageSize: number;
 }
+
+export interface FilterOptionWithCount {
+  name: string;
+  count: number;
+}
+
+export interface ProductFiltersResponse {
+  categories: FilterOptionWithCount[];
+  brands: FilterOptionWithCount[];
+  statuses: FilterOptionWithCount[];
+  minPrice: number;
+  maxPrice: number;
+}

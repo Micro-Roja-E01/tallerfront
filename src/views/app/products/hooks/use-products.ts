@@ -1,15 +1,30 @@
 import { useRouter } from "next/navigation";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useCallback, useState } from "react";
 
-import { useGetProductsForCustomer } from "@/hooks/api";
-import { PaginationQueryParams } from "@/models/requests";
+import { useGetProductFilters, useGetProductsForCustomer } from "@/hooks/api";
+import { AdvancedFiltersParams } from "@/models/requests";
+
+import { AdvancedFiltersState } from "../components";
 
 export const useProducts = () => {
   // State
-  const [filters, setFilters] = useState<PaginationQueryParams>({
+  const [filters, setFilters] = useState<AdvancedFiltersParams>({
     pageNumber: 1,
     pageSize: 10,
     searchTerm: "",
+    categories: [],
+    brands: [],
+    statuses: [],
+    minPrice: undefined,
+    maxPrice: undefined,
+  });
+
+  const [advancedFilters, setAdvancedFilters] = useState<AdvancedFiltersState>({
+    categories: [],
+    brands: [],
+    statuses: [],
+    minPrice: undefined,
+    maxPrice: undefined,
   });
 
   const router = useRouter();
@@ -22,12 +37,17 @@ export const useProducts = () => {
     refetch,
   } = useGetProductsForCustomer(filters);
 
+  const { data: filtersQueryData, isLoading: isLoadingFilters } =
+    useGetProductFilters();
+
   // Computed values
   const productsData = queryData?.data;
   const products = productsData?.products ?? [];
   const totalPages = productsData?.totalPages ?? 0;
   const totalCount = productsData?.totalCount ?? 0;
   const currentPage = productsData?.currentPage ?? 1;
+
+  const filtersData = filtersQueryData?.data;
 
   const generatePageNumbers = () => {
     const pages = [];
@@ -61,7 +81,7 @@ export const useProducts = () => {
   const pageNumbers = totalPages > 1 ? generatePageNumbers() : [];
 
   // Actions
-  const handleUpdateFilters = (newFilters: Partial<PaginationQueryParams>) => {
+  const handleUpdateFilters = (newFilters: Partial<AdvancedFiltersParams>) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
   };
 
@@ -107,6 +127,73 @@ export const useProducts = () => {
     refetch();
   };
 
+  // Acciones para filtros avanzados
+  const handleAdvancedFiltersChange = useCallback(
+    (newAdvancedFilters: AdvancedFiltersState) => {
+      setAdvancedFilters(newAdvancedFilters);
+      handleUpdateFilters({
+        categories: newAdvancedFilters.categories,
+        brands: newAdvancedFilters.brands,
+        statuses: newAdvancedFilters.statuses,
+        minPrice: newAdvancedFilters.minPrice,
+        maxPrice: newAdvancedFilters.maxPrice,
+        pageNumber: 1, // Reset página al cambiar filtros
+      });
+    },
+    []
+  );
+
+  const handleRemoveCategory = useCallback(
+    (category: string) => {
+      const newCategories = advancedFilters.categories.filter(
+        c => c !== category
+      );
+      handleAdvancedFiltersChange({
+        ...advancedFilters,
+        categories: newCategories,
+      });
+    },
+    [advancedFilters, handleAdvancedFiltersChange]
+  );
+
+  const handleRemoveBrand = useCallback(
+    (brand: string) => {
+      const newBrands = advancedFilters.brands.filter(b => b !== brand);
+      handleAdvancedFiltersChange({ ...advancedFilters, brands: newBrands });
+    },
+    [advancedFilters, handleAdvancedFiltersChange]
+  );
+
+  const handleRemoveStatus = useCallback(
+    (status: string) => {
+      const newStatuses = advancedFilters.statuses.filter(s => s !== status);
+      handleAdvancedFiltersChange({
+        ...advancedFilters,
+        statuses: newStatuses,
+      });
+    },
+    [advancedFilters, handleAdvancedFiltersChange]
+  );
+
+  const handleRemovePriceRange = useCallback(() => {
+    handleAdvancedFiltersChange({
+      ...advancedFilters,
+      minPrice: undefined,
+      maxPrice: undefined,
+    });
+  }, [advancedFilters, handleAdvancedFiltersChange]);
+
+  const handleClearAllFilters = useCallback(() => {
+    const clearedFilters: AdvancedFiltersState = {
+      categories: [],
+      brands: [],
+      statuses: [],
+      minPrice: undefined,
+      maxPrice: undefined,
+    };
+    handleAdvancedFiltersChange(clearedFilters);
+  }, [handleAdvancedFiltersChange]);
+
   return {
     // Product data
     products,
@@ -123,6 +210,11 @@ export const useProducts = () => {
 
     // Filter state
     filters,
+    advancedFilters,
+
+    // Filters data from API
+    filtersData,
+    isLoadingFilters,
 
     // Actions
     actions: {
@@ -133,6 +225,13 @@ export const useProducts = () => {
       handleNextPage,
       handlePageClick,
       handleRetry,
+      // Advanced filters actions
+      handleAdvancedFiltersChange,
+      handleRemoveCategory,
+      handleRemoveBrand,
+      handleRemoveStatus,
+      handleRemovePriceRange,
+      handleClearAllFilters,
     },
   };
 };

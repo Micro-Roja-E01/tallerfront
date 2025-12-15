@@ -1,11 +1,14 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { isValidId } from "@/lib";
-import { PaginationQueryParams } from "@/models/requests";
+import {
+  AdvancedFiltersParams,
+  PaginationQueryParams,
+} from "@/models/requests";
 import { productService } from "@/services";
 
 export const useGetProductsForCustomer = (
-  params: PaginationQueryParams = { pageNumber: 1 }
+  params: PaginationQueryParams | AdvancedFiltersParams = { pageNumber: 1 }
 ) => {
   return useQuery({
     queryKey: ["products", "customer", params],
@@ -13,6 +16,18 @@ export const useGetProductsForCustomer = (
       const response = await productService.getProductsForCustomer(params);
       return response.data;
     },
+  });
+};
+
+export const useGetProductFilters = (enabled = true) => {
+  return useQuery({
+    queryKey: ["products", "filters"],
+    queryFn: async () => {
+      const response = await productService.getProductFilters();
+      return response.data;
+    },
+    enabled,
+    staleTime: 10 * 60 * 1000, // 10 minutos de cache para los filtros
   });
 };
 

@@ -1,4 +1,10 @@
 export {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./accordion";
+export {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -91,6 +97,7 @@ export {
   SheetTrigger,
 } from "./sheet";
 export { Skeleton } from "./skeleton";
+export { Slider } from "./slider";
 export { Toaster } from "./sonner";
 export { Switch } from "./switch";
 export {

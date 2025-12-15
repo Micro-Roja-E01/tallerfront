@@ -1,9 +1,13 @@
 import { AxiosRequestConfig } from "axios";
 
 import { ApiResponse } from "@/models/generics";
-import { PaginationQueryParams } from "@/models/requests";
+import {
+  AdvancedFiltersParams,
+  PaginationQueryParams,
+} from "@/models/requests";
 import {
   ProductDetailForCustomerResponse,
+  ProductFiltersResponse,
   ProductListForAdminResponse,
   ProductListForCustomerResponse,
 } from "@/models/responses";
@@ -15,10 +19,47 @@ export class ProductService extends BaseApiService {
     super("");
   }
 
-  getProductsForCustomer(params?: PaginationQueryParams) {
+  getProductsForCustomer(
+    params?: PaginationQueryParams | AdvancedFiltersParams
+  ) {
+    const queryParams = params ? this.buildQueryParams(params) : {};
     return this.httpClient.get<ApiResponse<ProductListForCustomerResponse>>(
       `${this.baseURL}/products`,
-      { params } as AxiosRequestConfig
+      { params: queryParams } as AxiosRequestConfig
+    );
+  }
+
+  private buildQueryParams(
+    params: PaginationQueryParams | AdvancedFiltersParams
+  ) {
+    const queryParams: Record<string, string | number | undefined> = {
+      pageNumber: params.pageNumber,
+      pageSize: params.pageSize,
+      searchTerm: params.searchTerm,
+    };
+
+    if ("categories" in params && params.categories?.length) {
+      queryParams.categories = params.categories.join(",");
+    }
+    if ("brands" in params && params.brands?.length) {
+      queryParams.brands = params.brands.join(",");
+    }
+    if ("statuses" in params && params.statuses?.length) {
+      queryParams.statuses = params.statuses.join(",");
+    }
+    if ("minPrice" in params && params.minPrice !== undefined) {
+      queryParams.minPrice = params.minPrice;
+    }
+    if ("maxPrice" in params && params.maxPrice !== undefined) {
+      queryParams.maxPrice = params.maxPrice;
+    }
+
+    return queryParams;
+  }
+
+  getProductFilters() {
+    return this.httpClient.get<ApiResponse<ProductFiltersResponse>>(
+      `${this.baseURL}/products/filters`
     );
   }
 
