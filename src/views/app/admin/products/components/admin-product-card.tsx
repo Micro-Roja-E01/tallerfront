@@ -1,9 +1,12 @@
 "use client";
 
+import { Edit } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import {
   Badge,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -95,25 +98,39 @@ export const AdminProductCard = ({
           {new Date(product.updatedAt).toLocaleDateString()}
         </p>
 
-        <div className="mt-3 flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">
-            {product.isAvailable ? "Disponible" : "No disponible"}
-          </span>
-          <AdminConfirmationDialog
-            isActive={product.isAvailable}
-            productData={{
-              title: product.title,
-              brandName: product.brandName,
-            }}
-            trigger={
-              <Switch
-                checked={product.isAvailable}
-                className="cursor-pointer disabled:cursor-not-allowed"
-                disabled={isToggling}
-              />
-            }
-            onConfirm={() => onToggleAvailability?.(product.id.toString())}
-          />
+        <div className="mt-3 flex flex-col gap-3">
+          <Link href={`/admin/products/${product.id}/edit`} className="w-full">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full"
+              disabled={isToggling}
+            >
+              <Edit className="h-4 w-4 mr-2" />
+              Editar
+            </Button>
+          </Link>
+
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              {product.isAvailable ? "Disponible" : "No disponible"}
+            </span>
+            <AdminConfirmationDialog
+              isActive={product.isAvailable}
+              productData={{
+                title: product.title,
+                brandName: product.brandName,
+              }}
+              trigger={
+                <Switch
+                  checked={product.isAvailable}
+                  className="cursor-pointer disabled:cursor-not-allowed"
+                  disabled={isToggling}
+                />
+              }
+              onConfirm={() => onToggleAvailability?.(product.id.toString())}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>
